@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/LoginPage">
+    <fragment
+        android:id="@+id/LoginPage"
+        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Login"
+        android:label="login"
+        tools:layout="@layout/login" >
+        <action
+            android:id="@+id/action_LoginPage_to_SignUpPage"
+            app:destination="@id/SignUpPage"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/action_LoginPage_to_loginSuccessful"
+            app:destination="@id/loginSuccessful" />
+    </fragment>
+    <fragment
+        android:id="@+id/SignUpPage"
+        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.SignUp"
+        android:label="sign_up"
+        tools:layout="@layout/sign_up" >
+        <action
+            android:id="@+id/action_SignUpPage_to_LoginPage"
+            app:destination="@id/LoginPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginSuccessful"
+        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.LoginSuccessful"
+        android:label="fragment_login_successful"
+        tools:layout="@layout/login_successful" >
+        <action
+            android:id="@+id/action_loginSuccessful_to_LoginPage"
+            app:destination="@id/LoginPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/loggedInScrolling"
+        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.LoggedInScrolling"
+        android:label="logged_in_scrolling"
+        tools:layout="@layout/logged_in_scrolling" />
+</navigation>
