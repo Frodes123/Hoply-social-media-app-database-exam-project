@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.LoginBinding;
@@ -14,7 +15,7 @@ import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.Sign
 
 public class SignUp extends Fragment {
     private SignUpBinding binding;
-
+    AppViewModel model;
 
     String username;
     String password1;
@@ -37,6 +38,7 @@ public class SignUp extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        model = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         // sign up button. needs to give values to app from text widgets.
         binding.buttonFirst.setOnClickListener(new View.OnClickListener() {

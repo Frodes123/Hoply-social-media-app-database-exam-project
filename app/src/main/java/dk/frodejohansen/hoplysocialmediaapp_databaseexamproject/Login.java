@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.LoginBinding;
@@ -14,7 +15,11 @@ import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.Logi
 public class Login extends Fragment {
 
     private LoginBinding binding;
+    private AppViewModel model;
     boolean matchesUser;
+    String username;
+    String password;
+
 
     @Override
     public View onCreateView(
@@ -34,6 +39,8 @@ public class Login extends Fragment {
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                username = binding.editTextTextPersonName2.getText().toString();
+                password = binding.editTextTextPassword3.getText().toString();
                 /*
                 if (!matchesUser)
                 {
@@ -44,6 +51,8 @@ public class Login extends Fragment {
                             .navigate(R.id.action_LoginPage_to_loginSuccessful);
                 }
                 */
+                model = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+                model.setName(username);
                 NavHostFragment.findNavController(Login.this)
                         .navigate(R.id.action_LoginPage_to_loginSuccessful);
             }
