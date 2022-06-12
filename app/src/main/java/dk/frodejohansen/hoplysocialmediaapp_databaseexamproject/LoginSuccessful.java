@@ -17,11 +17,7 @@ public class LoginSuccessful extends Fragment {
     AppViewModel model;
 
     @Override
-    public View onCreateView(
-            LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = LoginSuccessfulBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -32,8 +28,10 @@ public class LoginSuccessful extends Fragment {
 
         model = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         model.getName().observe(getViewLifecycleOwner(), name ->{
-            binding.textView6.setText("You successfully logged in as " + name);
+            binding.textView6.setText("Welcome " + name);
         });
+        // TODO set text and picture when logged in. get reactions
+
         // log out button
         binding.button5.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +40,25 @@ public class LoginSuccessful extends Fragment {
                         .navigate(R.id.action_loginSuccessful_to_LoginPage);
             }
         });
+        // next post button
+        binding.button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO set picture
+                // TODO set text
+                // TODO set reactions
+            }
+        });
+
+        // create post button. goes to create post fragment
+        binding.button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(LoginSuccessful.this)
+                        .navigate(R.id.action_loginSuccessful_to_post);
+            }
+        });
+
     }
 
     @Override

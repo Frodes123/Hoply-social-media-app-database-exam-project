@@ -35,10 +35,17 @@
         <action
             android:id="@+id/action_loginSuccessful_to_LoginPage"
             app:destination="@id/LoginPage" />
+        <action
+            android:id="@+id/action_loginSuccessful_to_post"
+            app:destination="@id/post" />
     </fragment>
     <fragment
-        android:id="@+id/loggedInScrolling"
-        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.LoggedInScrolling"
-        android:label="logged_in_scrolling"
-        tools:layout="@layout/logged_in_scrolling" />
+        android:id="@+id/post"
+        android:name="dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Post"
+        android:label="post"
+        tools:layout="@layout/post" >
+        <action
+            android:id="@+id/action_post_to_loginSuccessful"
+            app:destination="@id/loginSuccessful" />
+    </fragment>
 </navigation>

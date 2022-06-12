@@ -18,7 +18,7 @@ public class Repository
 
     private LiveData<List<User>> allUsers;
 
-    Repository(Application application)
+    public Repository(Application application)
     {
         RoomDatabase database = RoomDatabase.getDatabase(application);
         userDAO = database.userDAO();
