@@ -2,6 +2,7 @@ package dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database;
 
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity(tableName = "users")
-class User
+public class User
 {
     //--------------------
     // ATTRIBUTES
@@ -19,21 +20,21 @@ class User
 
     @PrimaryKey
     @NonNull
-    // TODO: Can it really be the case that this must be a String?
+    @ColumnInfo(name = "id")
     private String id;
 
     private String name;
-
-    private Timestamp stamp;
+    private long stampLong;
 
     //--------------------
     // CONSTRUCTOR
     //--------------------
 
-    public User(@NonNull String name)
+    public User(@NonNull String id, @NonNull String name, long stampLong)
     {
+        this.id = id;
         this.name = name;
-        stamp = new Timestamp(Instant.now().getEpochSecond());
+        this.stampLong = stampLong;
     }
 
 
@@ -44,7 +45,12 @@ class User
     {
         return this.name;
     }
-    public Timestamp getStamp() { return this.stamp; }
+    public long getStampLong() { return this.stampLong; }
+    public String getId(){ return this.id; }
 
+    public Timestamp getTimestamp()
+    {
+        return new Timestamp(stampLong);
+    }
 
 }

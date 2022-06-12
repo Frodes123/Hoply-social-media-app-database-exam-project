@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RoomWarnings;
 
 import java.util.List;
 
@@ -18,11 +19,13 @@ public interface UserDAO
     void deleteAll();
 
 
-    @Query("SELECT * FROM users ORDER BY name ASC")
+    @Query("SELECT * FROM users ORDER BY id ASC")
     LiveData<List<User>> getAlphabetizedUsers();
 
     // If this is 1 the id already exists.
     @Query("SELECT id FROM users WHERE id = :ID")
-    LiveData<List<User>> getUserMatchingID(String ID);
+    // TODO: See if this still works after SuppressWarnings
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    List<String> getUserMatchingID(String ID);
 
 }

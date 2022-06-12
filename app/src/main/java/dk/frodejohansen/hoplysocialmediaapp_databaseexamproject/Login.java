@@ -41,20 +41,19 @@ public class Login extends Fragment {
             public void onClick(View view) {
                 username = binding.editTextTextPersonName2.getText().toString();
                 password = binding.editTextTextPassword3.getText().toString();
-                /*
+
+                // TODO find om username matches password
+
                 if (!matchesUser)
                 {
-                    binding.textViewLoginError.setVisibility(view.VISIBLE)
+                    binding.textViewLoginError.setVisibility(view.VISIBLE);
                 }
                 else{
+                    model = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+                    model.setName(username);
                     NavHostFragment.findNavController(Login.this)
                             .navigate(R.id.action_LoginPage_to_loginSuccessful);
                 }
-                */
-                model = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
-                model.setName(username);
-                NavHostFragment.findNavController(Login.this)
-                        .navigate(R.id.action_LoginPage_to_loginSuccessful);
             }
         });
 

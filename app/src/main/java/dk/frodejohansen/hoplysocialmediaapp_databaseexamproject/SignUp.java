@@ -1,6 +1,7 @@
 package dk.frodejohansen.hoplysocialmediaapp_databaseexamproject;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database.RoomDatabase;
+import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database.User;
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.LoginBinding;
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.SignUpBinding;
 
@@ -23,7 +26,7 @@ public class SignUp extends Fragment {
     boolean passwordEmpty;
     boolean passwordSame;
     boolean nameTaken;
-
+    // TODO add passwords til database.
 
     @Override
     public View onCreateView(
@@ -54,20 +57,20 @@ public class SignUp extends Fragment {
                 // check if passwords are the same
                 passwordSame = password1.equals(password2) ? true : false;
 
+                // check if name already taken.
+                nameTaken = model.repository.listContainsUserID(username);
 
-                //nameTaken = repository.nameTaken(username);
-                // TODO check if name already taken.
-                /*
-                if(nameTaken)
-                {
-                    binding.textViewSignUpError.setText("Name is already taken, try another");
-                    binding.textViewSignUpError.setVisibility(View.VISIBLE);
-                }
-                 */
+
                 // check if password is empty
                 if (passwordEmpty)
                 {
                     binding.textViewSignUpError.setText("Password cannot be empty");
+                    binding.textViewSignUpError.setVisibility(View.VISIBLE);
+                }
+                // check if name is taken
+                else if(nameTaken)
+                {
+                    binding.textViewSignUpError.setText("Name is already taken, try another");
                     binding.textViewSignUpError.setVisibility(View.VISIBLE);
                 }
                 // check if passwords are the same
@@ -76,8 +79,12 @@ public class SignUp extends Fragment {
                     binding.textViewSignUpError.setText("Passwords have to match");
                     binding.textViewSignUpError.setVisibility(View.VISIBLE);
                 }
+
                 else
                 {
+                    Log.d("før usercreation", "ja");
+                    model.repository.insert(new User(username, username, 2));
+                    Log.d("efter usercreation", "ja");
                     NavHostFragment.findNavController(SignUp.this)
                             .navigate(R.id.action_SignUpPage_to_LoginPage);
                 }

@@ -20,7 +20,7 @@ public interface PostDAO
 
     // Get all posts from a given User
     @Query("SELECT * FROM posts WHERE id = :userID")
-    LiveData<List<Post>> getUserPosts(int userID); // TODO: Here I assume that ID is an int
+    LiveData<List<Post>> getUserPosts(int userID);
 
 
 }

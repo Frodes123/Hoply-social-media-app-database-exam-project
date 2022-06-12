@@ -22,8 +22,13 @@ public interface ReactionDAO
     void deleteReaction(Reaction reaction);
 
     // Get all reactions from a given Post
-    @Query("SELECT * FROM reactions WHERE post_id = :postID")
-    LiveData<List<Reaction>> getPostReactions(int postID);
+    @Query("SELECT type FROM reactions WHERE postId = :postID")
+    LiveData<List<Integer>> getPostReactions(int postID);
+
+    // Returns the postIDs from all posts the user has reacted to.
+    @Query("SELECT postId FROM reactions WHERE userId = :userIdToCheck")
+    LiveData<List<Integer>> getUserReactionPostIDs(String userIdToCheck);
+
 
     // TODO: Add more SQL
 }

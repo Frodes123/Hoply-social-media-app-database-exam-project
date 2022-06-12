@@ -14,25 +14,28 @@ public class Post
     // ATTRIBUTES
     //--------------------
 
-    @PrimaryKey
+
     @NonNull
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     //TODO: UserID
 
     private String content;
 
-    private Timestamp stamp;
+    private final long stampLong;
 
     //--------------------
     // CONSTRUCTOR
     //--------------------
 
-    public Post(String content)
+
+    public Post(String content,long stampLong /*Use Instant.now().getEpochSecond()*/, int id /*Set to 0 when using this Method, Room should autogenerate*/)
     {
         // TODO: ID
         this.content = content;
-        stamp = new Timestamp(Instant.now().getEpochSecond());
+        this.stampLong = stampLong;
+        this.id = id;
     }
 
     //--------------------
@@ -40,6 +43,7 @@ public class Post
     //--------------------
 
     public String getContent() { return this.content; }
-    public Timestamp getStamp() { return this.stamp; }
+    public long getStampLong() { return this.stampLong; }
+    public Timestamp getStamp() { return new Timestamp(stampLong); }
     public int getId() { return this.id; }
 }

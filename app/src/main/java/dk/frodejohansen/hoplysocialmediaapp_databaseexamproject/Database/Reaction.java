@@ -7,37 +7,45 @@ import androidx.room.PrimaryKey;
 import java.sql.Timestamp;
 import java.time.Instant;
 
-@Entity(tableName = "reactions", primaryKeys = {"post_id", "stamp"})
+@Entity(tableName = "reactions", primaryKeys = {"postId", "stampLong"})
 public class Reaction
 {
     //--------------------
     // ATTRIBUTES
     //--------------------
 
-    // TODO: UserID
+    // TODO: Auto generate
+
+    private String userId;
 
     @NonNull
-    private int post_id;
+    private int postId;
 
     // The type of reaction
     private int type;
 
-    private Timestamp stamp;
+    @NonNull
+    private long stampLong;
 
     //--------------------
     // CONSTRUCTOR
     //--------------------
 
-    public Reaction(int type, Post post)
+    public Reaction(long stampLong /*Use Instant.now().getEpochSecond()*/, int type, String userId, int postId /*Set this to '0' when using, Room should autogenerate from there*/)
     {
         this.type = type;
-        this.stamp = new Timestamp(Instant.now().getEpochSecond());
-        this.post_id = post.getId();
+        this.stampLong = stampLong;
+        this.userId = userId;
+        this.postId = postId;
     }
 
     //--------------------
     // Get Methods
     //--------------------
 
-    public int getId(){return this.post_id;}
+    public int getPostId() { return this.postId; }
+    public String getUserId() { return this.userId; }
+    public long getStampLong() { return this.stampLong; }
+    public int getType() { return this.type; }
+    public Timestamp getTimestamp() { return new Timestamp(stampLong); }
 }
