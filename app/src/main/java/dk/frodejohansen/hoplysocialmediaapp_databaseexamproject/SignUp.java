@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.time.Instant;
+
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database.RoomDatabase;
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database.User;
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.databinding.LoginBinding;
@@ -79,12 +81,13 @@ public class SignUp extends Fragment {
                     binding.textViewSignUpError.setText("Passwords have to match");
                     binding.textViewSignUpError.setVisibility(View.VISIBLE);
                 }
-
+                // register user.
                 else
                 {
-                    Log.d("før usercreation", "ja");
-                    model.repository.insert(new User(username, username, 2));
-                    Log.d("efter usercreation", "ja");
+                    //Log.d("før usercreation", "ja");
+                    //TODO add hashing
+                    model.repository.insert(new User(username, username, password1, Instant.now().getEpochSecond()));
+                    //Log.d("efter usercreation", "ja");
                     NavHostFragment.findNavController(SignUp.this)
                             .navigate(R.id.action_SignUpPage_to_LoginPage);
                 }
