@@ -9,6 +9,7 @@ import org.w3c.dom.Text;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 
 public class Repository
@@ -80,18 +81,13 @@ public class Repository
     }
     public boolean userExistsAndMatches(String userid, String hashedPassword)
     {
-        boolean existsAndMatches = false;
-        boolean exists = usernameExists(userid);
-        if (exists)
+        for (User user:allUsers)
         {
-            // get password from userid.
-            RoomDatabase.databaseWriteExecutor.execute(() -> { this.passwordFromID = userDAO.getPasswordFromID(userid); });
-            if (passwordFromID.contains(hashedPassword));
-            {
-                existsAndMatches = true;
-            }
+            if (Objects.equals(user.getUser_id(), userid) && Objects.equals(user.getPassword(), hashedPassword))
+                return true;
         }
-        return existsAndMatches;
+
+        return false;
     }
 
     //--------------------

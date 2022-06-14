@@ -63,8 +63,6 @@ public class SignUp extends Fragment {
                 // check if passwords are the same
                 passwordSame = password1.equals(password2) ? true : false;
 
-                // check if name already taken.
-                nameTaken = model.repository.usernameExists(userid);
 
 
                 // check if password is empty
@@ -74,7 +72,7 @@ public class SignUp extends Fragment {
                     binding.textViewSignUpError.setVisibility(View.VISIBLE);
                 }
                 // check if name is taken
-                else if(nameTaken)
+                else if(model.repository.usernameExists(userid))
                 {
                     binding.textViewSignUpError.setText("Name is already taken, try another");
                     binding.textViewSignUpError.setVisibility(View.VISIBLE);
