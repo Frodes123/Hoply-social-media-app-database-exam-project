@@ -52,8 +52,7 @@ public class Login extends Fragment {
                 try{
                     // hash password before putting into database to prevent storing passwords openly.
                     MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    byte[] encodedhash = digest.digest(
-                            password.getBytes(StandardCharsets.UTF_8));
+                    byte[] encodedhash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
                     hexaPassword = bytesToHex(encodedhash);
                 }catch(NoSuchAlgorithmException e)
                 {

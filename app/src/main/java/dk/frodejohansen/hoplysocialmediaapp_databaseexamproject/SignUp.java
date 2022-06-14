@@ -53,8 +53,8 @@ public class SignUp extends Fragment {
             @Override
             public void onClick(View view) {
                 // get values from editTexts
-                userid = binding.editTextTextPersonName.getText().toString();
-                displayName = binding.editTextSignUpName.getText().toString();
+                displayName = binding.editTextTextPersonName.getText().toString();
+                userid = binding.editTextSignUpName.getText().toString();
                 password1 = binding.editTextPassword1.getText().toString();
                 password2 = binding.editTextPassword2.getText().toString();
 
@@ -64,7 +64,7 @@ public class SignUp extends Fragment {
                 passwordSame = password1.equals(password2) ? true : false;
 
                 // check if name already taken.
-                nameTaken = model.repository.listContainsUserID(userid);
+                nameTaken = model.repository.usernameExists(userid);
 
 
                 // check if password is empty
@@ -93,8 +93,7 @@ public class SignUp extends Fragment {
                     try{
                         // hash password before putting into database to prevent storing passwords openly.
                         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                        byte[] encodedhash = digest.digest(
-                                password1.getBytes(StandardCharsets.UTF_8));
+                        byte[] encodedhash = digest.digest(password1.getBytes(StandardCharsets.UTF_8));
                         String hexaPassword = bytesToHex(encodedhash);
                         model.repository.insert(new User(userid, displayName, hexaPassword, Instant.now().getEpochSecond()));
                     }catch(NoSuchAlgorithmException e)
