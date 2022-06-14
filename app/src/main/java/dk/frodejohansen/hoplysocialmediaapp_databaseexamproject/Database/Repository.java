@@ -64,6 +64,12 @@ public class Repository
         RoomDatabase.databaseWriteExecutor.execute(() -> {userDAO.insertUser(user);});
     }
 
+    // insert post into database.
+    public void insert(Post post)
+    {
+        RoomDatabase.databaseWriteExecutor.execute(() -> {postDAO.insertPost(post);});
+    }
+
     public boolean usernameExists(String username)
     {
         RoomDatabase.databaseWriteExecutor.execute(() -> { this.userIds = userDAO.getUserIds(); });
@@ -80,8 +86,7 @@ public class Repository
         {
             // get password from userid.
             RoomDatabase.databaseWriteExecutor.execute(() -> { this.passwordFromID = userDAO.getPasswordFromID(userid); });
-            String storedPassword = passwordFromID.get(0);
-            if (storedPassword.equals(hashedPassword));
+            if (passwordFromID.contains(hashedPassword));
             {
                 existsAndMatches = true;
             }
