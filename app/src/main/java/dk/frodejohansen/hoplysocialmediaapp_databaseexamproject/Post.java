@@ -40,8 +40,18 @@ public class Post extends Fragment {
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean imagePost = false;
+
+                if (!imagePost)
+                {
+                    // image = null/placeholder;
+                }
+                // save text and image in database
+
+                // return to loginSuccessful
+                NavHostFragment.findNavController(Post.this)
+                        .navigate(R.id.action_post_to_loginSuccessful);
                 // TODO get post text and image. Put into database together with username.
-                // TODO return to loginSuccesful?
             }
         });
         // cancel button

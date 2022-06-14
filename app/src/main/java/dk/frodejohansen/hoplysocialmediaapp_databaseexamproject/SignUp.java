@@ -11,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 
 import dk.frodejohansen.hoplysocialmediaapp_databaseexamproject.Database.RoomDatabase;
@@ -22,13 +25,13 @@ public class SignUp extends Fragment {
     private SignUpBinding binding;
     AppViewModel model;
 
-    String username;
+    String userid;
+    String displayName;
     String password1;
     String password2;
     boolean passwordEmpty;
     boolean passwordSame;
     boolean nameTaken;
-    // TODO add passwords til database.
 
     @Override
     public View onCreateView(
@@ -50,7 +53,8 @@ public class SignUp extends Fragment {
             @Override
             public void onClick(View view) {
                 // get values from editTexts
-                username = binding.editTextSignUpName.getText().toString();
+                userid = binding.editTextTextPersonName.getText().toString();
+                displayName = binding.editTextSignUpName.getText().toString();
                 password1 = binding.editTextPassword1.getText().toString();
                 password2 = binding.editTextPassword2.getText().toString();
 
@@ -60,7 +64,7 @@ public class SignUp extends Fragment {
                 passwordSame = password1.equals(password2) ? true : false;
 
                 // check if name already taken.
-                nameTaken = model.repository.listContainsUserID(username);
+                nameTaken = model.repository.listContainsUserID(userid);
 
 
                 // check if password is empty
@@ -85,9 +89,20 @@ public class SignUp extends Fragment {
                 else
                 {
                     //Log.d("før usercreation", "ja");
-                    //TODO add hashing
-                    model.repository.insert(new User(username, username, password1, Instant.now().getEpochSecond()));
+
+                    try{
+                        // hash password before putting into database to prevent storing passwords openly.
+                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] encodedhash = digest.digest(
+                                password1.getBytes(StandardCharsets.UTF_8));
+                        String hexaPassword = bytesToHex(encodedhash);
+                        model.repository.insert(new User(userid, displayName, hexaPassword, Instant.now().getEpochSecond()));
+                    }catch(NoSuchAlgorithmException e)
+                    {
+                        Log.d("error", "no such algorithm exception");
+                    }
                     //Log.d("efter usercreation", "ja");
+                    // go to login page
                     NavHostFragment.findNavController(SignUp.this)
                             .navigate(R.id.action_SignUpPage_to_LoginPage);
                 }
@@ -107,5 +122,17 @@ public class SignUp extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    // method to make the byte[] to a string in hexadecimal. taken from https://www.baeldung.com/sha-256-hashing-java
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if(hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 }

@@ -26,6 +26,7 @@ public class Repository
 
     private List<User> allUsers;
     private List<String> userIds;
+    private List<String> passwordFromID;
 
     public Repository(Application application)
     {
@@ -70,6 +71,22 @@ public class Repository
         if(userIds.contains(username))
             return true;
         return false;
+    }
+    public boolean userExistsAndMatches(String userid, String hashedPassword)
+    {
+        boolean existsAndMatches = false;
+        boolean exists = usernameExists(userid);
+        if (exists)
+        {
+            // get password from userid.
+            RoomDatabase.databaseWriteExecutor.execute(() -> { this.passwordFromID = userDAO.getPasswordFromID(userid); });
+            String storedPassword = passwordFromID.get(0);
+            if (storedPassword.equals(hashedPassword));
+            {
+                existsAndMatches = true;
+            }
+        }
+        return existsAndMatches;
     }
 
     //--------------------

@@ -31,4 +31,8 @@ public interface UserDAO
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     List<String> getUserMatchingID(String ID);
 
+    // Get hashed password from username
+    @Query("SELECT password FROM users WHERE id = :ID")
+    List<String> getPasswordFromID(String ID);
+
 }
